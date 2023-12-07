@@ -36,25 +36,34 @@ function searchWeather () {
             currentTemp.textContent = `Temp: ${temp} °F`;
             currentWind.textContent = `Wind: ${wind} mph`;
             currentHumidity.textContent = `Humidity: ${humidity}%`;
-
-        })
-    
-// Fetch 5 day Forecast 
-    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat="${lat}"&lon=${lon}&appid=${apiKey}&units=imperial`;
-
-    fetch(forecastUrl)
+            
+            const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
+         
+        
+        fetch(forecastUrl)
         .then ((response) => {
         return response.json();
         })
-
+        
         .then((data) => {
-            displayForecast(datalist);
-        });
+            console.log(data)
+            displayForecast(data.list);
+        })
+            
+            });
+        
+// Fetch 5 day Forecast 
+        console.log(lat)
+
 }
 
 function displayForecast(forecastList) {
     // Clear previous forecast 
     forecast.innerHTML = "";
+    for(var i = 0; i < forecastList.length; i = i + 8 ) {
+        
+    }
+
 }
 
 function clearHistory() {
