@@ -9,4 +9,4 @@ Designed a weather tracker with current and 5 day forecast. Location searchable 
 (https://cmfyoung.github.io/Weather-Dashboard/)
 #### Acknowledgements 
 
-Project assistance from Andrew Layendecker during office hours. Sheetal Srikumar during tutoring sessions. Referenced WDN Docs, Bootstrap Docs, W3 Schools on Javascript.
+Project assistance from Andrew Layendecker and Diego Struk Jaia during office hours. Sheetal Srikumar during tutoring sessions. Referenced WDN Docs, Bootstrap Docs, W3 Schools on Javascript.
