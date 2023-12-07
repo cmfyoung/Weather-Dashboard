@@ -1,6 +1,7 @@
 const apiKey = "13a4cd452f49d14b9a24491cdc2af043";
 
-const searchButton= document.querySelector("#search-btn");
+const searchButton = document.querySelector("#search-btn");
+const clearButton = document.getElementById("clear-history-btn");
 const city = document.querySelector(".city");
 const currentCity = document.querySelector("#current-city");
 const currentTemp = document.querySelector("#current-temp");
@@ -22,7 +23,7 @@ function searchWeather () {
     
     fetch(requestUrl)
         .then ((response) => {
-            return response.json();
+        return response.json();
         })
  // Display Current weather 
         .then((data) => {
@@ -37,11 +38,29 @@ function searchWeather () {
             currentHumidity.textContent = `Humidity: ${humidity}%`;
 
         })
+    
+// Fetch 5 day Forecast 
+    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat="${lat}"&lon=${lon}&appid=${apiKey}&units=imperial`;
 
-        // api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
+    fetch(forecastUrl)
+        .then ((response) => {
+        return response.json();
+        })
 
+        .then((data) => {
+            displayForecast(datalist);
+        });
+}
+
+function displayForecast(forecastList) {
+    // Clear previous forecast 
+    forecast.innerHTML = "";
+}
+
+function clearHistory() {
+    console.log("Clear history");
 }
 
 
-
 searchButton.addEventListener("click", searchWeather); 
+clearButton.addEventListener("click", clearHistory);
