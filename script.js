@@ -53,21 +53,46 @@ function searchWeather () {
             });
         
 // Fetch 5 day Forecast 
-        console.log(lat)
+console.log(lat)
 
+// Save city to local Storage
+saveCity(cityName);
 }
 
+// display the 5 day forecast
 function displayForecast(forecastList) {
-    // Clear previous forecast 
     forecast.innerHTML = "";
-    for(var i = 0; i < forecastList.length; i = i + 8 ) {
-        
+    for(var i = 0; i < forecastList.length; i += 8 ) {
+        const forecastItem = forecastList [i];
+    
     }
 
 }
 
+// Save City to local Storage
+function saveCity(cityName) {
+    let savedCities = JSON.parse(localStorage.getItem("cities")) || []
+
+    if (!savedCities.includes(cityName)) {
+        savedCities.push(cityName);
+        localStorage.setItem("cities", JSON.stringify(savedCities));
+    }
+}
+
+
+function loadCity() {
+    let savedCities = JSON.parse(localStorage.getItem("cities")) || []
+
+}
+
+loadCity();
+
+// Clear the saved cities
 function clearHistory() {
     console.log("Clear history");
+
+    // clear local storage
+    localStorage.removeItem("cities")
 }
 
 
