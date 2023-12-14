@@ -1,5 +1,7 @@
+//API Key for Openweather API
 const apiKey = "13a4cd452f49d14b9a24491cdc2af043";
 
+//DOM elements
 const searchButton = document.querySelector("#search-btn");
 const clearButton = document.getElementById("clear-history-btn");
 const city = document.querySelector(".city");
@@ -20,8 +22,10 @@ function searchWeather () {
 
     console.log(cityName);
 
+// API request for Current Weather
     var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=imperial`;
     
+// Fetch current weather data 
     fetch(requestUrl)
         .then ((response) => {
         return response.json();
@@ -37,16 +41,15 @@ function searchWeather () {
             currentTemp.textContent = `Temp: ${temp} °F`;
             currentWind.textContent = `Wind: ${wind} mph`;
             currentHumidity.textContent = `Humidity: ${humidity}%`;
-            
+            //API for 5-day forecast
             const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
          
-        
+        //fetch 5-day data
         fetch(forecastUrl)
         .then ((response) => {
         return response.json();
         })
-        // Fetch 5 day Forecast 
-        
+
         .then((data) => {
             console.log(data)
             displayForecast(data.list);
@@ -66,12 +69,21 @@ function displayForecast(forecastList) {
     for(var i = 0; i < forecastList.length; i += 8 ) {
         const forecastItem = forecastList [i];
         console.log(i)
+
+        //create HTML elements for the forecast 
     var dayEl=`<div class="card row my-1 mx-auto" id="forecast">
     <ul id="Day-1"></ul>
     </div>`;
     var divEl = $("<div>");
     divEl.addClass("card row my-1 mx-auto");
     var ulEl = $("<ul>");
+//display the day number for the 5day forecast
+    var dayText= `Day ${Math.ceil((i+1)/8)}`;
+    var dayNum = $("<li>");
+    dayNum.text(dayText);
+    dayNum.addClass("forecast-day");
+    ulEl.append(dayNum);
+//Forecast Details 
     var temp = $("<li>");
     var wind = $("<li>");
     var humidity = $("<li>");
@@ -90,6 +102,7 @@ function displayForecast(forecastList) {
 function saveCity(cityName) {
     savedCitiesEl.empty() 
     let savedCities = JSON.parse(localStorage.getItem("cities")) || []
+    
     if (cityName){
     if (!savedCities.includes(cityName)) {
         savedCities.push(cityName);
@@ -99,6 +112,11 @@ function saveCity(cityName) {
     for (var i=0; i < savedCities.length; i++) {
     var savedCitiesbtn = $("<button>");
     savedCitiesbtn.text(savedCities[i]);
+    savedCitiesbtn.addClass("saved-city-button");
+    savedCitiesbtn.on("click", function () {
+        var cityName = $(this).text();
+        searchWeather(cityName);
+    })
     savedCitiesEl.append(savedCitiesbtn);
     }
 }
