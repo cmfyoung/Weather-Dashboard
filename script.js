@@ -7,7 +7,8 @@ const currentCity = document.querySelector("#current-city");
 const currentTemp = document.querySelector("#current-temp");
 const currentWind = document.querySelector("#current-wind");
 const currentHumidity = document.querySelector("#current-humidity");
-const forecast = document.querySelector("#forecast");
+const forecast = $(".forecast");
+let savedCitiesEl = $("#saved-cities");
 var lat;
 var lon;
 
@@ -44,6 +45,7 @@ function searchWeather () {
         .then ((response) => {
         return response.json();
         })
+        // Fetch 5 day Forecast 
         
         .then((data) => {
             console.log(data)
@@ -52,40 +54,56 @@ function searchWeather () {
             
             });
         
-// Fetch 5 day Forecast 
-console.log(lat)
-
 // Save city to local Storage
 saveCity(cityName);
 }
 
 // display the 5 day forecast
+
 function displayForecast(forecastList) {
-    forecast.innerHTML = "";
+    forecast.empty();
+    console.log(forecastList)
     for(var i = 0; i < forecastList.length; i += 8 ) {
         const forecastItem = forecastList [i];
-    
+        console.log(i)
+    var dayEl=`<div class="card row my-1 mx-auto" id="forecast">
+    <ul id="Day-1"></ul>
+    </div>`;
+    var divEl = $("<div>");
+    divEl.addClass("card row my-1 mx-auto");
+    var ulEl = $("<ul>");
+    var temp = $("<li>");
+    var wind = $("<li>");
+    var humidity = $("<li>");
+    temp.text(`Temperature: ${forecastItem.main.temp} °F`);
+    wind.text(`Wind: ${forecastItem.wind.speed} mph`);
+    humidity.text(`Humidity: ${forecastItem.main.humidity}%`);
+    ulEl.append(temp, wind, humidity);
+    console.log(ulEl)
+    divEl.append(ulEl);
+    forecast.append(ulEl);
     }
 
 }
 
 // Save City to local Storage
 function saveCity(cityName) {
+    savedCitiesEl.empty() 
     let savedCities = JSON.parse(localStorage.getItem("cities")) || []
-
+    if (cityName){
     if (!savedCities.includes(cityName)) {
         savedCities.push(cityName);
         localStorage.setItem("cities", JSON.stringify(savedCities));
+    }}
+    console.log(savedCities)
+    for (var i=0; i < savedCities.length; i++) {
+    var savedCitiesbtn = $("<button>");
+    savedCitiesbtn.text(savedCities[i]);
+    savedCitiesEl.append(savedCitiesbtn);
     }
 }
 
-
-function loadCity() {
-    let savedCities = JSON.parse(localStorage.getItem("cities")) || []
-
-}
-
-loadCity();
+saveCity();
 
 // Clear the saved cities
 function clearHistory() {
@@ -95,6 +113,7 @@ function clearHistory() {
     localStorage.removeItem("cities")
 }
 
+// savedCitiesEl.addEventListener("click", )
 
 searchButton.addEventListener("click", searchWeather); 
 clearButton.addEventListener("click", clearHistory);

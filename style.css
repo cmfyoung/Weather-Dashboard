@@ -63,6 +63,24 @@ h1 {
     background-color: rgb(182, 181, 181);
 }
 
+
+#saved-cities button{
+    width: 100%;
+    padding: 10px 0;
+    outline: none;
+    border: none;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 17px;
+    color: #fff;
+    border-radius: 4px;
+    background: rgb(157, 154, 154);
+}
+
+#saved-cities button:hover {
+    background-color: gray;
+}
+
 .weather-box{
     width: 100%;
     
