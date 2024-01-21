@@ -9,6 +9,7 @@ const currentCity = document.querySelector("#current-city");
 const currentTemp = document.querySelector("#current-temp");
 const currentWind = document.querySelector("#current-wind");
 const currentHumidity = document.querySelector("#current-humidity");
+const currentIcon = document.querySelector("#current-icon");
 const forecast = $(".forecast");
 let savedCitiesEl = $("#saved-cities");
 var lat;
@@ -31,6 +32,7 @@ function searchWeather(cityName) {
         })
         // Display Current weather 
         .then((data) => {
+            console.log(data)
             lat = data.coord.lat;
             lon = data.coord.lon;
             temp = data.main.temp;
@@ -40,6 +42,7 @@ function searchWeather(cityName) {
             currentTemp.textContent = `Temp: ${temp} °F`;
             currentWind.textContent = `Wind: ${wind} mph`;
             currentHumidity.textContent = `Humidity: ${humidity}%`;
+            currentIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png` 
             //API for 5-day forecast
             const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
 
@@ -86,10 +89,12 @@ function displayForecast(forecastList) {
         var temp = $("<li>");
         var wind = $("<li>");
         var humidity = $("<li>");
+        var icon = $("<img>")
         temp.text(`Temperature: ${forecastItem.main.temp} °F`);
         wind.text(`Wind: ${forecastItem.wind.speed} mph`);
         humidity.text(`Humidity: ${forecastItem.main.humidity}%`);
-        ulEl.append(temp, wind, humidity);
+        icon.attr(`src`,`https://openweathermap.org/img/wn/${forecastItem.weather[0].icon}@2x.png`);
+        ulEl.append(icon, temp, wind, humidity);
         console.log(ulEl)
         divEl.append(ulEl);
         forecast.append(ulEl);
